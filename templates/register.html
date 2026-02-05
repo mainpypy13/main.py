@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kayıt</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="box">
+    <h2>Kayıt Ol</h2>
+
+    <form method="POST">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Şifre" required>
+
+        {% if role == "user" %}
+            <input type="text" name="name" placeholder="Ad" required>
+            <input type="text" name="surname" placeholder="Soyad" required>
+        {% else %}
+            <input type="text" name="company" placeholder="Şirket Adı" required>
+            <input type="text" name="position" placeholder="Pozisyon" required>
+        {% endif %}
+
+        <button>Kaydol</button>
+    </form>
+</div>
+
+</body>
+</html>

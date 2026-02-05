@@ -1,32 +1,79 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, session, url_for
 
 app = Flask(__name__)
+app.secret_key = "secretkey"
 
-# MOCK CV DATA (5 adet)
-cvs = [
-    {"id": 1, "name": "Ahmet Yılmaz", "skill": "Python, ML"},
-    {"id": 2, "name": "Elif Kaya", "skill": "Data Science"},
-    {"id": 3, "name": "Mehmet Demir", "skill": "Frontend Developer"},
-    {"id": 4, "name": "Zynep Arslan", "skill": "AI Engineer"},
-    {"id": 5, "name": "Can Özkan", "skill": "Backend Developer"},
-]
+# Geçici veri depoları
+users = {}      # iş arayanlar
+employers = {}  # işverenler
+
 
 @app.route("/")
-def login():
+def home():
     return render_template("login.html")
 
-@app.route("/user")
-def user_panel():
-    return render_template("user.html")
 
-@app.route("/employer")
-def employer_panel():
-    return render_template("employer.html", cvs=cvs)
+# ---------------- REGISTER ----------------
+@app.route("/register/<role>", methods=["GET", "POST"])
+def register(role):
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
 
-@app.route("/rate/<int:cv_id>/<int:score>")
-def rate(cv_id, score):
-    print(f"CV {cv_id} {score} puan aldı")
-    return redirect(url_for("employer_panel"))
+        if role == "user":
+            users[email] = {
+                "password": password,
+                "name": request.form["name"],
+                "surname": request.form["surname"],
+                "scores": []
+            }
+        else:
+            employers[email] = {
+                "password": password,
+                "company": request.form["company"],
+                "position": request.form["position"]
+            }
+
+        return redirect(url_for("home"))
+
+    return render_template("register.html", role=role)
+
+
+# ---------------- LOGIN ----------------
+@app.route("/login/<role>", methods=["POST"])
+def login(role):
+    email = request.form["email"]
+    password = request.form["password"]
+
+    data = users if role == "user" else employers
+
+    if email in data and data[email]["password"] == password:
+        session["email"] = email
+        session["role"] = role
+        return redirect("/dashboard")
+
+    return "Hatalı giriş"
+
+
+# ---------------- DASHBOARD ----------------
+@app.route("/dashboard")
+def dashboard():
+    if "email" not in session:
+        return redirect("/")
+
+    email = session["email"]
+    role = session["role"]
+
+    profile = users[email] if role == "user" else employers[email]
+
+    return render_template("dashboard.html", role=role, profile=profile)
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <span>💼 Kariyer Platformu</span>
+
+    <div class="profile">
+        <details>
+            <summary>👤 Profil</summary>
+
+            {% if role == "user" %}
+                <p><b>Ad:</b> {{ profile.name }} {{ profile.surname }}</p>
+                <p><b>Ortalama Puan:</b>
+                    {% if profile.scores %}
+                        {{ (profile.scores | sum) / (profile.scores | length) }}
+                    {% else %}
+                        Henüz yok
+                    {% endif %}
+                </p>
+            {% else %}
+                <p><b>Şirket:</b> {{ profile.company }}</p>
+                <p><b>Pozisyon:</b> {{ profile.position }}</p>
+            {% endif %}
+
+            <a href="/logout">Çıkış Yap</a>
+        </details>
+    </div>
+</div>
+
+<div class="box">
+    <h2>Hoş geldin 🎉</h2>
+</div>
+
+</body>
+</html>

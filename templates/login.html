@@ -7,10 +7,27 @@
 <body>
 
 <div class="box">
-    <h2>Giriş Türü</h2>
+    <h2>🔐 Giriş Yap</h2>
 
-    <a href="/user"><button>👤 İş Arayan</button></a>
-    <a href="/employer"><button>🏢 İşveren</button></a>
+    <form action="/login/user" method="POST">
+        <h3>👤 İş Arayan</h3>
+        <input type="email" name="email" placeholder="Gmail" required>
+        <input type="password" name="password" placeholder="Şifre" required>
+        <button>Giriş Yap</button>
+    </form>
+
+    <form action="/login/employer" method="POST">
+        <h3>🏢 İşveren</h3>
+        <input type="email" name="email" placeholder="Kurumsal Mail" required>
+        <input type="password" name="password" placeholder="Şifre" required>
+        <button>Giriş Yap</button>
+    </form>
+
+    <hr>
+
+    <h2>📝 Kaydol</h2>
+    <a href="/register/user"><button>İş Arayan Kaydı</button></a>
+    <a href="/register/employer"><button>İşveren Kaydı</button></a>
 </div>
 
 </body>
