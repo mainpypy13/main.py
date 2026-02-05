@@ -7,7 +7,7 @@ cvs = [
     {"id": 1, "name": "Ahmet Yılmaz", "skill": "Python, ML"},
     {"id": 2, "name": "Elif Kaya", "skill": "Data Science"},
     {"id": 3, "name": "Mehmet Demir", "skill": "Frontend Developer"},
-    {"id": 4, "name": "Zeynep Arslan", "skill": "AI Engineer"},
+    {"id": 4, "name": "Zynep Arslan", "skill": "AI Engineer"},
     {"id": 5, "name": "Can Özkan", "skill": "Backend Developer"},
 ]
 
